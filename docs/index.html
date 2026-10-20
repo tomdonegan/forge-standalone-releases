@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forge TV: a fast IPTV player for Android TV</title>
+<meta name="description" content="Live TV, a proper guide, movies and live scores, all on one remote. A fast IPTV player for Android TV that works with your own M3U or Xtream Codes playlist.">
+<meta name="theme-color" content="#070A12">
+<meta property="og:title" content="Forge TV">
+<meta property="og:description" content="Live TV, a proper guide, movies and live scores, all on one remote.">
+<meta property="og:image" content="images/hero.png">
+<link rel="icon" href="images/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #070A12;
+    --panel: #0E1424;
+    --panel-2: #131B30;
+    --line: #1E2840;
+    --lift: #1C2C4D;
+    --gold: #E8C26E;
+    --gold-light: #F7E2AE;
+    --text: #F4F6FA;
+    --muted: #A9B1C2;
+    --radius: 18px;
+    --max: 1180px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--text);
+    font: 17px/1.6 "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--gold); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+  /* Top bar */
+  header.bar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(7, 10, 18, .82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); font-weight: 800; letter-spacing: .14em; }
+  .brand img { width: 32px; height: 32px; }
+  .brand span { color: var(--gold); }
+  .bar nav { margin-left: auto; display: flex; gap: 22px; }
+  .bar nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
+  .bar nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero {
+    position: relative; overflow: hidden;
+    background: radial-gradient(900px 520px at 18% 30%, rgba(28, 44, 77, .9), transparent 70%), var(--ink);
+    padding: 72px 0 40px;
+  }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; }
+  .hero-icon { width: 88px; height: 88px; margin-bottom: 20px; filter: drop-shadow(0 10px 30px rgba(232, 194, 110, .25)); }
+  h1 { font-size: clamp(40px, 6vw, 68px); line-height: 1.02; margin: 0 0 18px; letter-spacing: .02em; font-weight: 800; }
+  h1 span { color: var(--gold); }
+  .tagline { font-size: clamp(19px, 2.2vw, 24px); color: var(--text); margin: 0 0 10px; }
+  .sub { color: var(--muted); margin: 0 0 30px; max-width: 34em; }
+  .cta { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 26px; border-radius: 999px;
+    font-weight: 700; font-size: 17px; text-decoration: none;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover, .btn:focus-visible { transform: translateY(-2px) scale(1.02); }
+  .btn-primary { background: var(--gold); color: var(--ink); box-shadow: 0 10px 30px rgba(232, 194, 110, .25); }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-ghost { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+  .btn svg { width: 20px; height: 20px; }
+  .version { color: var(--muted); font-size: 14px; margin-top: 12px; min-height: 1.4em; }
+  .hero-shot {
+    border-radius: var(--radius); overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, .55);
+    transform: perspective(1400px) rotateY(-6deg);
+  }
+
+  /* Highlights */
+  .pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 48px 0 0; }
+  .pill { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; }
+  .pill b { display: block; font-size: 18px; margin-bottom: 4px; }
+  .pill p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  section { padding: 84px 0 0; }
+  .eyebrow { color: var(--gold); letter-spacing: .2em; text-transform: uppercase; font-size: 13px; font-weight: 700; margin: 0 0 10px; }
+  h2 { font-size: clamp(30px, 4vw, 44px); line-height: 1.1; margin: 0 0 14px; font-weight: 800; }
+  .lead { color: var(--muted); max-width: 40em; margin: 0 0 36px; }
+
+  /* Screens */
+  .shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .shots figure { margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .shots figcaption { padding: 14px 18px; color: var(--muted); font-size: 15px; }
+  details.more { margin-top: 22px; }
+  details.more summary {
+    cursor: pointer; display: inline-block; padding: 12px 20px;
+    background: var(--panel-2); border: 1px solid var(--line); border-radius: 999px;
+    font-weight: 600; list-style: none;
+  }
+  details.more summary::-webkit-details-marker { display: none; }
+  details.more[open] summary { margin-bottom: 22px; }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feature { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .feature .ico {
+    width: 46px; height: 46px; border-radius: 14px; margin-bottom: 16px;
+    display: grid; place-items: center; font-size: 22px;
+    background: linear-gradient(160deg, var(--lift), var(--panel-2));
+    border: 1px solid var(--line);
+  }
+  .feature h3 { margin: 0 0 10px; font-size: 20px; }
+  .feature ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 15px; }
+  .feature li + li { margin-top: 6px; }
+
+  /* Install */
+  .steps { counter-reset: step; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; list-style: none; padding: 0; margin: 0; }
+  .steps li { counter-increment: step; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; color: var(--muted); font-size: 15px; }
+  .steps li::before {
+    content: counter(step);
+    display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--gold); color: var(--ink); font-weight: 800; margin-bottom: 14px;
+  }
+  .steps b { color: var(--text); display: block; font-size: 17px; margin-bottom: 6px; }
+  code { background: var(--panel-2); border: 1px solid var(--line); padding: 1px 6px; border-radius: 6px; font-size: .9em; color: var(--gold-light); }
+  .note { margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 12px; padding: 18px 22px; color: var(--muted); }
+  .note b { color: var(--text); }
+
+  /* Devices */
+  .devices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .device { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .device b { display: block; font-size: 18px; margin-bottom: 4px; }
+  .device span { color: var(--muted); font-size: 15px; }
+
+  /* Footer */
+  .byo { margin: 84px 0 0; padding: 36px; border-radius: var(--radius); background: linear-gradient(135deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); text-align: center; }
+  .byo h2 { font-size: clamp(24px, 3vw, 32px); }
+  .byo p { color: var(--muted); max-width: 44em; margin: 0 auto 26px; }
+  footer { padding: 48px 0 60px; color: var(--muted); font-size: 14px; text-align: center; }
+
+  @media (max-width: 960px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-shot { transform: none; }
+    .features, .devices, .pills { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .wrap { padding: 0 16px; }
+    .bar nav { display: none; }
+    .hero { padding: 44px 0 24px; }
+    .shots, .features, .devices, .pills, .steps { grid-template-columns: 1fr; }
+    .btn { width: 100%; justify-content: center; }
+    section { padding-top: 60px; }
+    .byo { padding: 26px 20px; }
+  }
+  /* Big screens (a TV browser): scale everything up a little. */
+  @media (min-width: 1800px) {
+    html { font-size: 20px; }
+    body { font-size: 20px; }
+    :root { --max: 1500px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn, .btn:hover { transition: none; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="images/icon.svg" alt="">FORGE <span>TV</span></a>
+    <nav>
+      <a href="#screens">Screens</a>
+      <a href="#features">Features</a>
+      <a href="#install">Install</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <img class="hero-icon" src="images/icon.svg" alt="Forge TV icon">
+        <h1>FORGE <span>TV</span></h1>
+        <p class="tagline">Live TV, a proper guide, movies and live scores, all on one remote.</p>
+        <p class="sub">A fast IPTV player for Android TV that works with your own M3U or Xtream Codes playlist.</p>
+        <div class="cta">
+          <a class="btn btn-primary js-download" href="https://github.com/tomdonegan/forge-standalone-releases/releases">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+            <span class="js-download-label">Download for Android</span>
+          </a>
+          <a class="btn btn-ghost" href="#install">How to install</a>
+        </div>
+        <div class="version js-version"></div>
+      </div>
+      <div class="hero-shot">
+        <img src="images/guide.png" alt="The Forge TV guide: a time grid with a now line" width="1920" height="1080">
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="pills">
+        <div class="pill"><b>Built for the remote</b><p>Clear focus, one press to watch, and a guide that feels like a real set-top box.</p></div>
+        <div class="pill"><b>Quick on slow boxes</b><p>Channels start on the first frame, and the guide opens straight away. Runs on Android 6 and up.</p></div>
+        <div class="pill"><b>Stays on your TV</b><p>Playlists, logins, favourites and guide data are kept on the device.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="screens">
+    <div class="wrap">
+      <p class="eyebrow">A look around</p>
+      <h2>Everything on one remote</h2>
+      <p class="lead">Home, the guide, live sports and your movie library, designed for the big screen.</p>
+      <div class="shots">
+        <figure><img src="images/home.png" alt="Home: pick up right where you left off" loading="lazy" width="1920" height="1080"><figcaption>Home: pick up right where you left off</figcaption></figure>
+        <figure><img src="images/live-sports.png" alt="Live sports: scores beside the match" loading="lazy" width="1920" height="1080"><figcaption>Live sports: scores beside the match</figcaption></figure>
+        <figure><img src="images/movies.png" alt="Movies and TV shows as rows of posters" loading="lazy" width="1920" height="1080"><figcaption>Movies and TV shows as rows of posters</figcaption></figure>
+        <figure><img src="images/settings-account.png" alt="Playlist details: your account at a glance" loading="lazy" width="1920" height="1080"><figcaption>Playlist details: your account at a glance</figcaption></figure>
+      </div>
+      <details class="more">
+        <summary>More settings screens</summary>
+        <div class="shots">
+          <figure><img src="images/settings-playlists.png" alt="Settings: bring your own playlists" loading="lazy" width="1920" height="1080"><figcaption>Bring your own playlists</figcaption></figure>
+          <figure><img src="images/settings-guide.png" alt="Guide settings: grid or Now and next" loading="lazy" width="1920" height="1080"><figcaption>Guide: grid or Now and next</figcaption></figure>
+          <figure><img src="images/settings-playback.png" alt="Playback: tuned for fast channel changes" loading="lazy" width="1920" height="1080"><figcaption>Playback tuned for fast channel changes</figcaption></figure>
+          <figure><img src="images/settings-sports.png" alt="Sports settings: one switch for the sports screen" loading="lazy" width="1920" height="1080"><figcaption>One switch for the sports screen</figcaption></figure>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="wrap">
+      <p class="eyebrow">Features</p>
+      <h2>What you get</h2>
+      <p class="lead">Everything you'd expect from a set-top box, plus a few things you wouldn't.</p>
+      <div class="features">
+        <div class="feature">
+          <div class="ico" aria-hidden="true">📺</div>
+          <h3>Live TV and guide</h3>
+          <ul>
+            <li>Time-grid guide with a now line, or Now and next.</li>
+            <li>Categories, favourites, recently watched and search.</li>
+            <li>XMLTV listings, refreshed in the background.</li>
+            <li>Rename, hide, reorder and lock channels.</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="ico" aria-hidden="true">⚽</div>
+          <h3>Live sports</h3>
+          <ul>
+            <li>Live scores and scorers beside the match.</li>
+            <li>Match statistics along the bottom.</li>
+            <li>Score delay so results don't spoil the stream.</li>
+            <li>Football, basketball, NFL, hockey, rugby, cricket and more.</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="ico" aria-hidden="true">🎬</div>
+          <h3>Movies and TV shows</h3>
+          <ul>
+            <li>Rows of posters: new, top rated and every category.</li>
+            <li>Continue watching, resume or start over.</li>
+            <li>Next episode plays automatically.</li>
+            <li>Audio and subtitle tracks.</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="ico" aria-hidden="true">📱</div>
+          <h3>Phone companion</h3>
+          <ul>
+            <li>Pair by scanning a QR code on the TV.</li>
+            <li>Add playlists and change settings from your phone.</li>
+            <li>No app to install: it opens in the phone's browser.</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="ico" aria-hidden="true">🖐</div>
+          <h3>Touch, mouse and VR</h3>
+          <ul>
+            <li>Swipe to change channel, brightness and volume.</li>
+            <li>Pinch to fill the screen.</li>
+            <li>Runs on Meta Quest, Android XR and Pico headsets.</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="ico" aria-hidden="true">👪</div>
+          <h3>Profiles and parental PIN</h3>
+          <ul>
+            <li>Each profile keeps its own favourites and Continue watching.</li>
+            <li>Optional "Who's watching?" when the app opens.</li>
+            <li>A PIN locks whole categories.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="install">
+    <div class="wrap">
+      <p class="eyebrow">Install</p>
+      <h2>Up and running in minutes</h2>
+      <p class="lead">Forge TV is installed as an APK. You only do this once; after that the app updates itself.</p>
+      <ol class="steps">
+        <li><b>Download</b>Get the APK from the <a class="js-download" href="https://github.com/tomdonegan/forge-standalone-releases/releases">newest release</a>, on the TV itself or on a computer.</li>
+        <li><b>Copy it over</b>Use a downloader app on the TV, a USB stick, or <code>adb install</code> from a computer.</li>
+        <li><b>Allow it</b>Let your device install apps from that source when Android asks ("Install unknown apps").</li>
+        <li><b>Add your playlist</b>An M3U link, an M3U file or an Xtream Codes login, typed on the TV or sent from your phone.</li>
+      </ol>
+      <div class="note"><b>Updates are built in.</b> A few seconds after it opens, Forge TV checks for a new version and offers Update now, Later or Skip this version. You can turn this off, or check by hand, in Settings › About.</div>
+    </div>
+  </section>
+
+  <section id="devices">
+    <div class="wrap">
+      <p class="eyebrow">Supported devices</p>
+      <h2>Runs where you watch</h2>
+      <div class="devices">
+        <div class="device"><b>Android TV and Google TV</b><span>Boxes, sticks and televisions on Android 6.0 or later.</span></div>
+        <div class="device"><b>Phones and tablets</b><span>Full touch and mouse support, with screens sized to fit.</span></div>
+        <div class="device"><b>VR headsets</b><span>Meta Quest, Android XR and Pico, running in a panel.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="byo">
+      <h2>Bring your own playlist</h2>
+      <p>Forge TV is a player only. It does not include, sell or provide any channels, streams or content. You need your own M3U playlist or Xtream Codes login from a service you are entitled to use, and you are responsible for what you play with it.</p>
+      <a class="btn btn-primary js-download" href="https://github.com/tomdonegan/forge-standalone-releases/releases">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+        <span class="js-download-label">Download for Android</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Forge TV · <a href="https://github.com/tomdonegan/forge-standalone-releases/releases">All releases</a></div>
+</footer>
+
+<script>
+  // Every release is published as a pre-release, which GitHub's /releases/latest skips,
+  // so read the release list and use the newest one that carries the APK, the same way the app does.
+  // Without the API (offline, rate limited) the buttons keep linking to the Releases page.
+  (function () {
+    var api = "https://api.github.com/repos/tomdonegan/forge-standalone-releases/releases?per_page=10";
+    var apk = /^forge-tv-standalone-.*\.apk$/;
+    if (!window.fetch) return;
+    fetch(api, { headers: { Accept: "application/vnd.github+json" } })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (releases) {
+        for (var i = 0; i < releases.length; i++) {
+          var rel = releases[i];
+          if (rel.draft) continue;
+          var assets = rel.assets || [];
+          for (var j = 0; j < assets.length; j++) {
+            var a = assets[j];
+            if (!apk.test(a.name) || a.browser_download_url.indexOf("https://") !== 0) continue;
+            var version = rel.tag_name.replace(/^v/, "");
+            var mb = (a.size / 1048576).toFixed(1);
+            document.querySelectorAll(".js-download").forEach(function (el) { el.href = a.browser_download_url; });
+            document.querySelectorAll(".js-download-label").forEach(function (el) { el.textContent = "Download v" + version; });
+            var date = rel.published_at ? new Date(rel.published_at).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }) : "";
+            document.querySelector(".js-version").textContent = "APK · " + mb + " MB" + (date ? " · released " + date : "");
+            return;
+          }
+        }
+      })
+      .catch(function () {});
+  })();
+</script>
+</body>
+</html>

@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/tomdonegan/forge-standalone-releases/releases"><b>⬇ Download the latest APK</b></a>
+  <a href="https://github.com/tomdonegan/forge-standalone-releases/releases"><b>⬇ Download the latest APK</b></a> · <a href="https://tomdonegan.github.io/forge-standalone-releases/"><b>Website</b></a>
 </p>
 
 ![Forge TV: live TV, a proper guide, movies and live scores, all on one remote](docs/images/hero.png)
