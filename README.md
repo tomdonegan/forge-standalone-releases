@@ -29,7 +29,8 @@
 | ![Catch-up and reminders: watch what you missed](docs/images/catch-up.png) | ![Voice search: just say what you want](docs/images/voice-search.png) |
 | ![Live sports: scores beside the match](docs/images/live-sports.png) | ![Movies and TV shows as rows of posters](docs/images/movies.png) |
 | ![TV shows: every episode at a glance](docs/images/episodes.png) | ![Watching an episode: Skip intro and the banner's buttons](docs/images/player.png) |
-| ![Up next: the next episode over the credits](docs/images/up-next.png) | ![Backup: move to a new TV in minutes](docs/images/settings-backup.png) |
+| ![Up next: the next episode over the credits](docs/images/up-next.png) | ![Audio and subtitles: every track, named plainly](docs/images/audio-subtitles.png) |
+| ![Channel options: your own groups, another app and the right guide channel](docs/images/channel-options.png) | ![Backup: move to a new TV in minutes](docs/images/settings-backup.png) |
 
 <details>
 <summary><b>Settings screenshots</b></summary>
@@ -38,7 +39,8 @@
 |---|---|
 | ![Settings: bring your own playlists](docs/images/settings-playlists.png) | ![Playlist details: your account at a glance](docs/images/settings-account.png) |
 | ![Guide settings: grid or Now and next, and a time offset](docs/images/settings-guide.png) | ![Playback: buffer, frame rate matching and picture size](docs/images/settings-playback.png) |
-| ![Sports settings: one switch for the sports screen](docs/images/settings-sports.png) | |
+| ![Sports settings: one switch for the sports screen](docs/images/settings-sports.png) | ![Tidy names: tags such as UK or FHD taken off names](docs/images/tidy-names.png) |
+| ![Remote buttons: give the coloured buttons a new job](docs/images/remote-buttons.png) | |
 
 </details>
 
@@ -54,6 +56,14 @@
 - Number keys, Channel ±, Last channel and an info banner, just like a normal TV.
 - Rename, hide, reorder and lock channels and categories, and keep those changes when the playlist refreshes.
 - Channel logos sit straight on the dark guide, with no white plate behind them.
+- Very large playlists, with tens of thousands of channels, load and save reliably.
+
+### ✨ Make it yours
+- **Tidy names:** take tags such as "UK |", "[VIP]" or "FHD" off channel, category, movie and show names. Forge lists the tags your playlist uses most, and you can add your own. A tag only comes off as a whole word, so "UK" leaves "UKTV" alone.
+- **Your own groups:** gather channels from any category into a group of your own, such as the ones the family watches. Groups sit in the guide after Recently watched, and you can reorder, rename or delete them.
+- **Second guide:** add another XMLTV guide to a playlist to fill in the channels its own guide has no listings for.
+- **Choose guide channel:** when a channel shows the wrong listings, pick its guide channel by hand from a list of close matches, or go back to matching automatically.
+- **Remote buttons:** give the red, green, yellow and blue buttons, or any other button you add, a new job while watching live TV, such as Last channel, Favourites or the sleep timer.
 
 ### ⏪ Catch-up and reminders
 - **Catch-up:** programmes that have already been on are marked in the guide, and play from the start, on channels whose provider keeps an archive.
@@ -77,12 +87,22 @@
 - When the provider has no synopsis, Forge fills one in from **TVmaze** or **Wikipedia**.
 - **Skip intro** on episodes whose intro has been timed, and **Up next** counts down to the next episode over the credits.
 - The banner shows when a title ends and what's next, with buttons to skip back 10 s, pause, skip ahead 30 s or go to the next episode.
-- Audio and subtitle tracks, and resume or start over from Continue watching.
+- Resume or start over from Continue watching.
+
+### 🔊 Audio and subtitles
+- Pick subtitles and audio from a clear list: each track is named by language, layout and format (for example *English · 5.1 · Dolby Digital*), with subtitles for the deaf and hard of hearing (SDH) and audio description marked. The remote's subtitle and audio keys open the lists directly.
+- Choices made in a film are kept for that film, and for a series they are kept for every episode.
+- **Audio sync** moves the sound earlier or later, in small steps, when voices and lips don't match. It is kept for the TV, since it usually comes from the soundbar.
+- **Playback speed** from 0.5× to 2× for films, episodes and catch-up, with voices keeping their pitch.
+- Preferred subtitle and audio languages, a preference for SDH subtitles or audio description, and foreign-language subtitles that still show when subtitles are off.
+- Ready-made subtitle looks: Standard, **High contrast** (large yellow words on a solid box), **Large print** and Outline only.
+- **Dolby and DTS to a soundbar:** Auto, Off (always decode on the TV) or Always (always pass through).
 
 ### 📱 Phone companion
 - Pair a phone by scanning a QR code on the TV. There is no app to install; it opens in the phone's browser.
 - Add playlists, change settings, reorder favourites and show or hide categories from the phone instead of typing with the remote.
 - Pairing uses a code shown only on the TV screen, and paired phones can be unlinked at any time.
+- The subtitle and audio description options can be set from the phone as well.
 
 ### 💾 Backup and restore
 - One file holds your playlists and logins, settings, favourites, channel changes, profiles and Continue watching.
@@ -90,8 +110,9 @@
 
 ### 🖐 Touch, mouse, VR and TalkBack
 - Works on phones and tablets by touch: swipe to change channel, brightness and volume, pinch to fill the screen.
+- Live TV plays smoothly on phones, using the phone's hardware decoder first and keeping Wi-Fi awake while you watch.
 - Runs on Meta Quest, Android XR and Pico headsets, where the controller trigger or a hand pinch acts as a tap.
-- With **TalkBack** on, the guide reads out the channel, programme and times as you move, and forms read their labels and errors.
+- With **TalkBack** on, the guide reads out the channel, programme and times as you move, forms read their labels and errors, and the player's buttons and track changes are spoken.
 
 ### 👪 Profiles and parental controls
 - Profiles each keep their own favourites, recently watched and Continue watching.
@@ -104,6 +125,9 @@
 - **Match frame rate** switches the TV to suit the channel, such as 50 Hz broadcasts on a 60 Hz box.
 - Picture size (Fit, Zoom or Stretch) for everything or per channel, and subtitles styled your way: size, colour, background and position.
 - Playback details on screen (formats, decoder, dropped frames, buffer) for diagnosing jerky video.
+- **Sleep timer** from 15 minutes to 2 hours, with a minute's warning to keep watching.
+- **Open when the TV starts**, so Forge is the first thing on screen.
+- **Open in another app** hands a channel or title to another video player on the device.
 
 ## Install
 
