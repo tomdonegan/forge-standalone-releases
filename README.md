@@ -27,6 +27,7 @@
 |---|---|
 | ![Home: pick up right where you left off](docs/images/home.png) | ![TV guide: a time grid with a now line](docs/images/guide.png) |
 | ![Catch-up and reminders: watch what you missed](docs/images/catch-up.png) | ![Voice search: just say what you want](docs/images/voice-search.png) |
+| ![Recommended series and movies on Home](docs/images/recommended.png) | ![Live sports: hold OK on a match to jump to its channels](docs/images/sports-channels.png) |
 | ![Live sports: scores beside the match](docs/images/live-sports.png) | ![Movies and TV shows as rows of posters](docs/images/movies.png) |
 | ![TV shows: every episode at a glance](docs/images/episodes.png) | ![Watching an episode: Skip intro and the banner's buttons](docs/images/player.png) |
 | ![Up next: the next episode over the credits](docs/images/up-next.png) | ![Audio and subtitles: every track, named plainly](docs/images/audio-subtitles.png) |
@@ -54,7 +55,7 @@
 - **Voice search:** press the microphone key on the remote and say a channel or programme.
 - Programme listings from your playlist's XMLTV guide, refreshed in the background. A **guide time offset** fixes listings that are in the wrong time zone.
 - Number keys, Channel ±, Last channel and an info banner, just like a normal TV.
-- Rename, hide, reorder and lock channels and categories, and keep those changes when the playlist refreshes.
+- Rename, hide, reorder and lock channels and categories, and keep those changes when the playlist refreshes. While moving something, Right sends it to the top of the list and Left to the bottom.
 - Channel logos sit straight on the dark guide, with no white plate behind them.
 - Very large playlists, with tens of thousands of channels, load and save reliably.
 
@@ -73,11 +74,14 @@
 ### 🏠 Home screen
 - What's on now beside a live preview, with one press to watch.
 - Continue watching, Favourite channels and Recently watched rows, ready as soon as the app opens.
+- **Recommended series** and **Recommended movies**, picked from what each profile watches: its favourite categories and genres, and the next part of a film series it has started. Titles you've already seen are left out.
 
 ### ⚽ Live sports
 - When a match is on, the picture shrinks to make room for live scores, scorers and the rest of the league.
 - Match statistics along the bottom: possession, shots, corners and more.
 - A **Detailed** or **Compact** scoreboard, and you can browse the other matches for their scorers and statistics without changing channel.
+- **Jump to any game:** while browsing the scores, hold OK on a match to list the channels showing it, and pick one to switch. Hold OK on the game you're watching to move to another channel showing it.
+- The how-to hints show when the sports screen opens and briefly after a change, then get out of the way.
 - **Score delay** holds results back so the scores don't spoil what you haven't seen yet. Tune it with the remote, or let Auto follow the stream.
 - Football across the UK, Europe and beyond, plus basketball, American football, baseball, ice hockey, rugby, tennis, golf, motor racing, cricket and more.
 
