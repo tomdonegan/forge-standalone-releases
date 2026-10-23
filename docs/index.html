@@ -445,7 +445,7 @@
         <h2>Enjoying Forge TV?</h2>
         <p>If Forge TV makes watching easier, you can support its development. Totally optional.</p>
       </div>
-      <a class="btn btn-ghost" id="forge-donation-link" href="#" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a>
+      <a class="btn btn-ghost" id="forge-donation-link" href="#" target="_blank" rel="noopener noreferrer">☕ Support Forge TV</a>
     </div>
   </div>
 </main>
@@ -461,7 +461,7 @@
   var settings = window.FORGE_SITE_CONFIG && window.FORGE_SITE_CONFIG.donations;
   var support = document.getElementById("forge-donations");
   var donationLink = document.getElementById("forge-donation-link");
-  if (settings && settings.enabled === true && typeof settings.url === "string" && /^https:\/\/(www\.)?buymeacoffee\.com\/[a-zA-Z0-9._-]+\/?$/.test(settings.url)) {
+  if (settings && settings.enabled === true && typeof settings.url === "string" && /^https:\/\/(www\.)?ko-fi\.com\/[a-zA-Z0-9._-]+\/?$/.test(settings.url)) {
     donationLink.href = settings.url;
     support.hidden = false;
   }
