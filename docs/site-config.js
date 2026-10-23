@@ -3,7 +3,7 @@
 // To hide again, change enabled back to false and commit this file.
 window.FORGE_SITE_CONFIG = {
   donations: {
-    enabled: false,
-    url: "" // Example: "https://ko-fi.com/YOUR_USERNAME"
+    enabled: true,
+    url: "" // Example: "https://ko-fi.com/forgetv"
   }
 };
