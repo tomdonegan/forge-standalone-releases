@@ -1,0 +1,120 @@
+
+name: Publish APK to Forge TV Website
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "GitHub release tag, e.g. v0.8.6"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: forgetv-apk-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      VPS: forgetv-deploy@157.180.86.63
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Download release APK
+        run: |
+          mkdir -p release
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'forge-tv-standalone-*.apk' \
+            --dir release
+
+          count=$(find release -maxdepth 1 \
+            -name '*.apk' -type f | wc -l)
+          if [ "$count" -ne 1 ]; then
+            echo "Expected exactly one APK, found $count"
+            exit 1
+          fi
+
+          mv release/*.apk release/forge-tv-latest.apk
+
+      - name: Generate version metadata
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          tag = os.environ["RELEASE_TAG"]
+          version = tag.removeprefix("v")
+          apk = Path("release/forge-tv-latest.apk")
+
+          metadata = {
+              "version": version,
+              "apkUrl": "/downloads/forge-tv-latest.apk",
+              "sizeBytes": apk.stat().st_size,
+              "releaseDate": datetime.now(
+                  timezone.utc
+              ).date().isoformat()
+          }
+
+          Path("release/version.json").write_text(
+              json.dumps(metadata, indent=2) + "\n"
+          )
+          PY
+
+      - name: Upload to VPS
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          SSH="ssh -i $HOME/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+
+          $SSH "$VPS" \
+            "mkdir -p /var/www/forgetv/downloads"
+
+          rsync -avz -e "$SSH" \
+            release/forge-tv-latest.apk \
+            "$VPS:/var/www/forgetv/downloads/.incoming-$RUN_ID.apk"
+
+          rsync -avz -e "$SSH" \
+            release/version.json \
+            "$VPS:/var/www/forgetv/.incoming-$RUN_ID.json"
+
+          $SSH "$VPS" "
+            set -e
+            test -s /var/www/forgetv/downloads/.incoming-$RUN_ID.apk
+            python3 -m json.tool \
+              /var/www/forgetv/.incoming-$RUN_ID.json >/dev/null
+            mv /var/www/forgetv/downloads/.incoming-$RUN_ID.apk \
+              /var/www/forgetv/downloads/forge-tv-latest.apk
+            mv /var/www/forgetv/.incoming-$RUN_ID.json \
+              /var/www/forgetv/version.json
+          "
+
+      - name: Verify published metadata
+        run: |
+          curl --fail --silent --show-error \
+            --retry 5 --retry-delay 2 \
+            https://forgetv.app/version.json
