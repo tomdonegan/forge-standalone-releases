@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070A12">
+<meta name="description" content="Send Forge TV feedback, report an issue, or suggest a new feature.">
+<title>Feedback & feature suggestions | Forge TV</title>
+<link rel="icon" href="/images/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#070A12;--panel:#0E1424;--line:#1E2840;--text:#F4F6FA;--muted:#A9B1C2;--gold:#E8C26E}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 "Plus Jakarta Sans",system-ui,sans-serif}
+a{color:var(--gold)}.wrap{width:min(100% - 36px,920px);margin:auto}
+header{border-bottom:1px solid var(--line);padding:16px 0;background:#0B1020}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.11em;text-decoration:none;color:var(--text)}
+.brand img{height:32px;width:32px}.brand span{color:var(--gold)}
+nav{display:flex;gap:20px;flex-wrap:wrap}nav a{color:var(--muted);text-decoration:none}nav a[aria-current]{color:var(--gold)}
+main{padding:60px 0 70px}.kicker{color:var(--gold);text-transform:uppercase;letter-spacing:.17em;font-size:13px;font-weight:800}
+h1{font-size:clamp(32px,5vw,50px);line-height:1.12;margin:9px 0 16px}
+.intro{color:var(--muted);max-width:65ch;font-size:18px;margin-bottom:27px}
+form{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4vw,36px);display:grid;gap:20px}
+label{display:block;font-weight:700;margin-bottom:7px}label span,.help{color:var(--muted);font-size:13px;font-weight:400}
+input,select,textarea{width:100%;background:#131B30;border:1px solid #344260;border-radius:10px;color:var(--text);padding:13px 14px;font:inherit}
+textarea{min-height:170px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:2px}
+button{justify-self:start;border:0;border-radius:999px;background:var(--gold);color:#070A12;padding:13px 25px;font:inherit;font-weight:800;cursor:pointer}
+button:hover{background:#F7E2AE}button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.help{margin:0}.hidden-check{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:14px}
+@media(max-width:660px){header .wrap{align-items:flex-start;flex-direction:column}main{padding-top:38px}}
+</style>
+</head><body>
+<header><div class="wrap"><a class="brand" href="/"><img src="/images/icon.svg" alt="">FORGE <span>TV</span></a>
+<nav aria-label="Main navigation"><a href="/">Home</a><a href="/how-to.html">How-to</a><a href="/feedback.html" aria-current="page">Feedback</a></nav></div></header>
+<main class="wrap"><p class="kicker">Help shape Forge TV</p>
+<h1>Feedback & feature suggestions</h1>
+<p class="intro">Found something that could work better? Have an idea for a new feature? Tell me about it. Your suggestions help make Forge TV better for everyone.</p>
+<form action="https://formsubmit.co/admin@forgetv.app" method="POST">
+<input type="hidden" name="_subject" value="Forge TV — new website feedback">
+<input type="hidden" name="_template" value="table">
+<input type="hidden" name="_next" value="https://forgetv.app/feedback-thanks.html">
+<input type="hidden" name="_url" value="https://forgetv.app/feedback.html">
+<div class="hidden-check" aria-hidden="true"><label>Leave this field blank<input type="text" name="_honey" tabindex="-1" autocomplete="off"></label></div>
+<div><label for="category">What would you like to send?</label>
+<select id="category" name="Feedback type" required>
+<option value="" selected disabled>Choose an option</option>
+<option>Feature suggestion</option><option>Bug report</option><option>General feedback</option>
+</select></div>
+<div><label for="subject">Subject</label><input id="subject" type="text" name="Subject" maxlength="120" required placeholder="A short summary"></div>
+<div><label for="message">Your message</label><textarea id="message" name="Message" maxlength="5000" required placeholder="Explain your idea, what you'd like to see, or what isn't working."></textarea></div>
+<div><label for="version">App version <span>(optional)</span></label><input id="version" name="App version" maxlength="40" placeholder="e.g. 0.8.6"></div>
+<div><label for="name">Name <span>(optional)</span></label><input id="name" name="Name" maxlength="100" autocomplete="name"></div>
+<div><label for="email">Email <span>(optional, if you'd like a reply)</span></label><input id="email" type="email" name="email" maxlength="254" autocomplete="email" placeholder="you@example.com"></div>
+<p class="help">Please don't include passwords, playlist login details or other sensitive information. Your feedback is sent through FormSubmit to Forge TV's admin inbox. A spam verification may be required.</p>
+<button type="submit">Send feedback</button>
+</form>
+</main><footer><div class="wrap">Forge TV · <a href="/">Home</a></div></footer>
+</body></html>
