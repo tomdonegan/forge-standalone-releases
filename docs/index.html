@@ -149,6 +149,13 @@
   .device b { display: block; font-size: 18px; margin-bottom: 4px; }
   .device span { color: var(--muted); font-size: 15px; }
 
+  /* Optional support section */
+  .support-box { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 36px; padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); }
+  .support-box h2 { font-size: 24px; margin: 0 0 6px; }
+  .support-box p { margin: 0; color: var(--muted); }
+  .support-box .btn { white-space: nowrap; }
+  #forge-donations[hidden] { display: none; }
+
   /* Footer */
   .byo { margin: 84px 0 0; padding: 36px; border-radius: var(--radius); background: linear-gradient(135deg, var(--panel-2), var(--panel)); border: 1px solid var(--line); text-align: center; }
   .byo h2 { font-size: clamp(24px, 3vw, 32px); }
@@ -170,6 +177,7 @@
     .btn { width: 100%; justify-content: center; }
     section { padding-top: 60px; }
     .byo { padding: 26px 20px; }
+    .support-box { flex-direction: column; align-items: stretch; }
   }
   /* Big screens (a TV browser): scale everything up a little. */
   @media (min-width: 1800px) {
@@ -192,6 +200,7 @@
       <a href="#screens">Screens</a>
       <a href="#features">Features</a>
       <a href="#install">Install</a>
+      <a href="/how-to.html">How-to</a>
     </nav>
   </div>
 </header>
@@ -430,6 +439,15 @@
       </a>
     </div>
   </div>
+  <div class="wrap" id="forge-donations" hidden>
+    <div class="support-box">
+      <div>
+        <h2>Enjoying Forge TV?</h2>
+        <p>If Forge TV makes watching easier, you can support its development. Totally optional.</p>
+      </div>
+      <a class="btn btn-ghost" id="forge-donation-link" href="#" target="_blank" rel="noopener noreferrer">☕ Buy me a coffee</a>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -437,7 +455,17 @@
 </footer>
 
 
+<script src="/site-config.js"></script>
 <script>
+(function () {
+  var settings = window.FORGE_SITE_CONFIG && window.FORGE_SITE_CONFIG.donations;
+  var support = document.getElementById("forge-donations");
+  var donationLink = document.getElementById("forge-donation-link");
+  if (settings && settings.enabled === true && typeof settings.url === "string" && /^https:\/\/(www\.)?buymeacoffee\.com\/[a-zA-Z0-9._-]+\/?$/.test(settings.url)) {
+    donationLink.href = settings.url;
+    support.hidden = false;
+  }
+})();
 (function () {
   fetch("/version.json", { cache: "no-store" })
     .then(function (response) {
