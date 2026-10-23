@@ -205,7 +205,7 @@
         <p class="tagline">Live TV, a proper guide, movies and live scores, all on one remote.</p>
         <p class="sub">A fast IPTV player for Android TV that works with your own M3U or Xtream Codes playlist.</p>
         <div class="cta">
-          <a class="btn btn-primary js-download" href="https://github.com/tomdonegan/forge-standalone-releases/releases">
+          <a class="btn btn-primary js-download" href="/downloads/forge-tv-latest.apk">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
             <span class="js-download-label">Download for Android</span>
           </a>
@@ -399,7 +399,7 @@
       <h2>Up and running in minutes</h2>
       <p class="lead">Forge TV is installed as an APK. You only do this once; after that the app updates itself.</p>
       <ol class="steps">
-        <li><b>Download</b>Get the APK from the <a class="js-download" href="https://github.com/tomdonegan/forge-standalone-releases/releases">newest release</a>, on the TV itself or on a computer.</li>
+        <li><b>Download</b>Get the APK from the <a class="js-download" href="/downloads/forge-tv-latest.apk">newest release</a>, on the TV itself or on a computer.</li>
         <li><b>Copy it over</b>Use a downloader app on the TV, a USB stick, or <code>adb install</code> from a computer.</li>
         <li><b>Allow it</b>Let your device install apps from that source when Android asks ("Install unknown apps").</li>
         <li><b>Add your playlist</b>An M3U link, an M3U file or an Xtream Codes login, typed on the TV or sent from your phone.</li>
@@ -424,7 +424,7 @@
     <div class="byo">
       <h2>Bring your own playlist</h2>
       <p>Forge TV is a player only. It does not include, sell or provide any channels, streams or content. You need your own M3U playlist or Xtream Codes login from a service you are entitled to use, and you are responsible for what you play with it.</p>
-      <a class="btn btn-primary js-download" href="https://github.com/tomdonegan/forge-standalone-releases/releases">
+      <a class="btn btn-primary js-download" href="/downloads/forge-tv-latest.apk">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
         <span class="js-download-label">Download for Android</span>
       </a>
@@ -436,36 +436,37 @@
   <div class="wrap">Forge TV · <a href="https://github.com/tomdonegan/forge-standalone-releases/releases">All releases</a></div>
 </footer>
 
+
 <script>
-  // Every release is published as a pre-release, which GitHub's /releases/latest skips,
-  // so read the release list and use the newest one that carries the APK, the same way the app does.
-  // Without the API (offline, rate limited) the buttons keep linking to the Releases page.
-  (function () {
-    var api = "https://api.github.com/repos/tomdonegan/forge-standalone-releases/releases?per_page=10";
-    var apk = /^forge-tv-standalone-.*\.apk$/;
-    if (!window.fetch) return;
-    fetch(api, { headers: { Accept: "application/vnd.github+json" } })
-      .then(function (r) { return r.ok ? r.json() : []; })
-      .then(function (releases) {
-        for (var i = 0; i < releases.length; i++) {
-          var rel = releases[i];
-          if (rel.draft) continue;
-          var assets = rel.assets || [];
-          for (var j = 0; j < assets.length; j++) {
-            var a = assets[j];
-            if (!apk.test(a.name) || a.browser_download_url.indexOf("https://") !== 0) continue;
-            var version = rel.tag_name.replace(/^v/, "");
-            var mb = (a.size / 1048576).toFixed(1);
-            document.querySelectorAll(".js-download").forEach(function (el) { el.href = a.browser_download_url; });
-            document.querySelectorAll(".js-download-label").forEach(function (el) { el.textContent = "Download v" + version; });
-            var date = rel.published_at ? new Date(rel.published_at).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" }) : "";
-            document.querySelector(".js-version").textContent = "APK · " + mb + " MB" + (date ? " · released " + date : "");
-            return;
-          }
-        }
-      })
-      .catch(function () {});
-  })();
+(function () {
+  fetch("/version.json", { cache: "no-store" })
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error("Version metadata unavailable");
+      }
+      return response.json();
+    })
+    .then(function (release) {
+      if (!release.version || !release.apkUrl) return;
+
+      document.querySelectorAll(".js-download").forEach(function (el) {
+        el.href = release.apkUrl;
+      });
+
+      document.querySelectorAll(".js-download-label").forEach(function (el) {
+        el.textContent = "Download v" + release.version;
+      });
+
+      var version = document.querySelector(".js-version");
+      if (version) {
+        version.textContent = "Version " + release.version + " · Android APK";
+      }
+    })
+    .catch(function (error) {
+      console.error("Unable to load release information:", error);
+    });
+})();
 </script>
+
 </body>
 </html>
