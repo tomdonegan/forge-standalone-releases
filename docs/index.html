@@ -104,10 +104,9 @@
   .screenshot-caption { margin:0; font-size:14px; color:var(--muted); }
   .screenshot-close { border:1px solid var(--line); border-radius:9px; color:var(--text); background:var(--panel-2); padding:7px 12px; cursor:pointer; font:inherit; }
   .screenshot-scroll { overflow:auto; flex:1; min-height:0; text-align:center; }
-  .screenshot-full { width:100%; max-width:100%; height:auto; display:block; margin:auto; }
+  .screenshot-full { width:100%; max-width:100%; height:auto; display:block; margin:auto; cursor:zoom-in; }
+  .screenshot-dialog.is-zoomed .screenshot-full { cursor:zoom-out; }
   .screenshot-dialog.is-zoomed .screenshot-full { width:1920px; max-width:none; }
-  .screenshot-actions { display:flex; justify-content:center; align-items:center; gap:12px; padding:10px; border-top:1px solid var(--line); }
-  .screenshot-zoom { border:1px solid var(--line); border-radius:9px; color:var(--text); background:var(--panel-2); padding:7px 14px; cursor:pointer; font:inherit; }
 
   /* Highlights */
   .pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 48px 0 0; }
@@ -473,10 +472,7 @@
       <button type="button" class="screenshot-close" id="screenshot-close" aria-label="Close enlarged screenshot">✕ Close</button>
     </div>
     <div class="screenshot-scroll" id="screenshot-scroll">
-      <img class="screenshot-full" id="screenshot-full" src="" alt="">
-    </div>
-    <div class="screenshot-actions">
-      <button type="button" class="screenshot-zoom" id="screenshot-zoom">Zoom to original size</button>
+      <img class="screenshot-full" id="screenshot-full" src="" alt="" title="Click to zoom in or out">
     </div>
   </div>
 </dialog>
@@ -528,7 +524,6 @@
   var dialog = document.getElementById("screenshot-dialog");
   var full = document.getElementById("screenshot-full");
   var caption = document.getElementById("screenshot-caption");
-  var zoom = document.getElementById("screenshot-zoom");
   var scroll = document.getElementById("screenshot-scroll");
   var openedBy = null;
 
@@ -540,15 +535,13 @@
       full.alt = thumbnail.alt;
       caption.textContent = (button.closest("figure") && button.closest("figure").querySelector("figcaption") || {}).textContent || thumbnail.alt;
       dialog.classList.remove("is-zoomed");
-      zoom.textContent = "Zoom to original size";
       dialog.showModal();
     });
   });
 
   document.getElementById("screenshot-close").addEventListener("click", function () { dialog.close(); });
-  zoom.addEventListener("click", function () {
-    var enlarged = dialog.classList.toggle("is-zoomed");
-    zoom.textContent = enlarged ? "Fit to window" : "Zoom to original size";
+  full.addEventListener("click", function () {
+    dialog.classList.toggle("is-zoomed");
     scroll.scrollTop = 0;
     scroll.scrollLeft = 0;
   });
