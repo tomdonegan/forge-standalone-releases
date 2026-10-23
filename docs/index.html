@@ -92,6 +92,23 @@
     transform: perspective(1400px) rotateY(-6deg);
   }
 
+
+  /* Click-to-enlarge screenshot viewer */
+  .screenshot-trigger { display:block; width:100%; padding:0; border:0; background:transparent; color:inherit; cursor:zoom-in; }
+  .screenshot-trigger img { display:block; width:100%; height:auto; }
+  .screenshot-trigger:focus-visible { outline:3px solid var(--gold); outline-offset:-3px; }
+  .screenshot-dialog { width:min(98vw,1600px); max-width:none; max-height:96vh; padding:0; border:1px solid var(--line); border-radius:16px; background:var(--panel); color:var(--text); overflow:hidden; }
+  .screenshot-dialog::backdrop { background:rgba(0,0,0,.88); }
+  .screenshot-viewer { display:flex; flex-direction:column; max-height:96vh; }
+  .screenshot-toolbar { padding:10px 16px; display:flex; justify-content:space-between; align-items:center; gap:14px; border-bottom:1px solid var(--line); }
+  .screenshot-caption { margin:0; font-size:14px; color:var(--muted); }
+  .screenshot-close { border:1px solid var(--line); border-radius:9px; color:var(--text); background:var(--panel-2); padding:7px 12px; cursor:pointer; font:inherit; }
+  .screenshot-scroll { overflow:auto; flex:1; min-height:0; text-align:center; }
+  .screenshot-full { width:100%; max-width:100%; height:auto; display:block; margin:auto; }
+  .screenshot-dialog.is-zoomed .screenshot-full { width:1920px; max-width:none; }
+  .screenshot-actions { display:flex; justify-content:center; align-items:center; gap:12px; padding:10px; border-top:1px solid var(--line); }
+  .screenshot-zoom { border:1px solid var(--line); border-radius:9px; color:var(--text); background:var(--panel-2); padding:7px 14px; cursor:pointer; font:inherit; }
+
   /* Highlights */
   .pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 48px 0 0; }
   .pill { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; }
@@ -223,7 +240,7 @@
         <div class="version js-version"></div>
       </div>
       <div class="hero-shot">
-        <img src="images/guide.png" alt="The Forge TV guide: a time grid with a now line" width="1920" height="1080">
+        <button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: The Forge TV guide: a time grid with a now line"><img src="images/guide.png" alt="The Forge TV guide: a time grid with a now line" width="1920" height="1080"></button>
       </div>
     </div>
     <div class="wrap">
@@ -241,31 +258,31 @@
       <h2>Everything on one remote</h2>
       <p class="lead">Home, recommendations, the guide, catch-up, live sports, your movie library and the player, designed for the big screen.</p>
       <div class="shots">
-          <figure><img src="images/home.png" alt="Home: pick up right where you left off" loading="lazy" width="1920" height="1080"><figcaption>Home: pick up right where you left off</figcaption></figure>
-          <figure><img src="images/catch-up.png" alt="Catch-up and reminders in the guide" loading="lazy" width="1920" height="1080"><figcaption>Catch-up, Start over and reminders in the guide</figcaption></figure>
-          <figure><img src="images/voice-search.png" alt="Voice search over the guide" loading="lazy" width="1920" height="1080"><figcaption>Voice search: just say what you want</figcaption></figure>
-          <figure><img src="images/recommended.png" alt="Home with Recommended series and Recommended movies rows" loading="lazy" width="1920" height="1080"><figcaption>Recommended series and movies, picked for each profile</figcaption></figure>
-          <figure><img src="images/sports-channels.png" alt="Holding OK on a match lists the channels showing it" loading="lazy" width="1920" height="1080"><figcaption>Jump to any game from the scores</figcaption></figure>
-          <figure><img src="images/live-sports.png" alt="Live sports: scores beside the match" loading="lazy" width="1920" height="1080"><figcaption>Live sports: scores beside the match</figcaption></figure>
-          <figure><img src="images/movies.png" alt="Movies and TV shows as rows of posters" loading="lazy" width="1920" height="1080"><figcaption>Movies and TV shows as rows of posters</figcaption></figure>
-          <figure><img src="images/episodes.png" alt="A show page with widescreen episode tiles" loading="lazy" width="1920" height="1080"><figcaption>Every episode at a glance</figcaption></figure>
-          <figure><img src="images/player.png" alt="Watching an episode with Skip intro" loading="lazy" width="1920" height="1080"><figcaption>Skip intro, and buttons for every remote</figcaption></figure>
-          <figure><img src="images/up-next.png" alt="Up next over the credits" loading="lazy" width="1920" height="1080"><figcaption>Up next counts down over the credits</figcaption></figure>
-          <figure><img src="images/audio-subtitles.png" alt="The Audio and subtitles menu over a film, with high-contrast subtitles" loading="lazy" width="1920" height="1080"><figcaption>Every audio and subtitle track, named plainly</figcaption></figure>
-          <figure><img src="images/channel-options.png" alt="A channel's options: add to a group, open in another app, choose guide channel" loading="lazy" width="1920" height="1080"><figcaption>Your own groups, and the right listings for every channel</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Home: pick up right where you left off"><img src="images/home.png" alt="Home: pick up right where you left off" loading="lazy" width="1920" height="1080"></button><figcaption>Home: pick up right where you left off</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Catch-up and reminders in the guide"><img src="images/catch-up.png" alt="Catch-up and reminders in the guide" loading="lazy" width="1920" height="1080"></button><figcaption>Catch-up, Start over and reminders in the guide</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Voice search over the guide"><img src="images/voice-search.png" alt="Voice search over the guide" loading="lazy" width="1920" height="1080"></button><figcaption>Voice search: just say what you want</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Home with Recommended series and Recommended movies rows"><img src="images/recommended.png" alt="Home with Recommended series and Recommended movies rows" loading="lazy" width="1920" height="1080"></button><figcaption>Recommended series and movies, picked for each profile</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Holding OK on a match lists the channels showing it"><img src="images/sports-channels.png" alt="Holding OK on a match lists the channels showing it" loading="lazy" width="1920" height="1080"></button><figcaption>Jump to any game from the scores</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Live sports: scores beside the match"><img src="images/live-sports.png" alt="Live sports: scores beside the match" loading="lazy" width="1920" height="1080"></button><figcaption>Live sports: scores beside the match</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Movies and TV shows as rows of posters"><img src="images/movies.png" alt="Movies and TV shows as rows of posters" loading="lazy" width="1920" height="1080"></button><figcaption>Movies and TV shows as rows of posters</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: A show page with widescreen episode tiles"><img src="images/episodes.png" alt="A show page with widescreen episode tiles" loading="lazy" width="1920" height="1080"></button><figcaption>Every episode at a glance</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Watching an episode with Skip intro"><img src="images/player.png" alt="Watching an episode with Skip intro" loading="lazy" width="1920" height="1080"></button><figcaption>Skip intro, and buttons for every remote</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Up next over the credits"><img src="images/up-next.png" alt="Up next over the credits" loading="lazy" width="1920" height="1080"></button><figcaption>Up next counts down over the credits</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: The Audio and subtitles menu over a film, with high-contrast subtitles"><img src="images/audio-subtitles.png" alt="The Audio and subtitles menu over a film, with high-contrast subtitles" loading="lazy" width="1920" height="1080"></button><figcaption>Every audio and subtitle track, named plainly</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: A channel's options: add to a group, open in another app, choose guide channel"><img src="images/channel-options.png" alt="A channel's options: add to a group, open in another app, choose guide channel" loading="lazy" width="1920" height="1080"></button><figcaption>Your own groups, and the right listings for every channel</figcaption></figure>
       </div>
       <details class="more">
         <summary>More screens</summary>
         <div class="shots">
-          <figure><img src="images/guide.png" alt="The TV guide: a time grid with a now line" loading="lazy" width="1920" height="1080"><figcaption>A guide that reads like TV</figcaption></figure>
-          <figure><img src="images/settings-backup.png" alt="Backup: move to a new TV in minutes" loading="lazy" width="1920" height="1080"><figcaption>Backup and restore in one file</figcaption></figure>
-          <figure><img src="images/settings-playlists.png" alt="Settings: bring your own playlists" loading="lazy" width="1920" height="1080"><figcaption>Bring your own playlists</figcaption></figure>
-          <figure><img src="images/settings-account.png" alt="Playlist details: your account at a glance" loading="lazy" width="1920" height="1080"><figcaption>Your account at a glance</figcaption></figure>
-          <figure><img src="images/settings-guide.png" alt="Guide settings: grid or Now and next, and a time offset" loading="lazy" width="1920" height="1080"><figcaption>Guide style and time offset</figcaption></figure>
-          <figure><img src="images/settings-playback.png" alt="Playback: buffer, frame rate matching and picture size" loading="lazy" width="1920" height="1080"><figcaption>Playback tuned for fast channel changes</figcaption></figure>
-          <figure><img src="images/settings-sports.png" alt="Sports settings: one switch for the sports screen" loading="lazy" width="1920" height="1080"><figcaption>One switch for the sports screen</figcaption></figure>
-          <figure><img src="images/tidy-names.png" alt="Tidy names: tags such as UK or FHD taken off names" loading="lazy" width="1920" height="1080"><figcaption>Tidy names takes the clutter off</figcaption></figure>
-          <figure><img src="images/remote-buttons.png" alt="Remote buttons: give the coloured buttons a new job" loading="lazy" width="1920" height="1080"><figcaption>Give any button a new job</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: The TV guide: a time grid with a now line"><img src="images/guide.png" alt="The TV guide: a time grid with a now line" loading="lazy" width="1920" height="1080"></button><figcaption>A guide that reads like TV</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Backup: move to a new TV in minutes"><img src="images/settings-backup.png" alt="Backup: move to a new TV in minutes" loading="lazy" width="1920" height="1080"></button><figcaption>Backup and restore in one file</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Settings: bring your own playlists"><img src="images/settings-playlists.png" alt="Settings: bring your own playlists" loading="lazy" width="1920" height="1080"></button><figcaption>Bring your own playlists</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Playlist details: your account at a glance"><img src="images/settings-account.png" alt="Playlist details: your account at a glance" loading="lazy" width="1920" height="1080"></button><figcaption>Your account at a glance</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Guide settings: grid or Now and next, and a time offset"><img src="images/settings-guide.png" alt="Guide settings: grid or Now and next, and a time offset" loading="lazy" width="1920" height="1080"></button><figcaption>Guide style and time offset</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Playback: buffer, frame rate matching and picture size"><img src="images/settings-playback.png" alt="Playback: buffer, frame rate matching and picture size" loading="lazy" width="1920" height="1080"></button><figcaption>Playback tuned for fast channel changes</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Sports settings: one switch for the sports screen"><img src="images/settings-sports.png" alt="Sports settings: one switch for the sports screen" loading="lazy" width="1920" height="1080"></button><figcaption>One switch for the sports screen</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Tidy names: tags such as UK or FHD taken off names"><img src="images/tidy-names.png" alt="Tidy names: tags such as UK or FHD taken off names" loading="lazy" width="1920" height="1080"></button><figcaption>Tidy names takes the clutter off</figcaption></figure>
+          <figure><button type="button" class="screenshot-trigger" aria-label="Enlarge screenshot: Remote buttons: give the coloured buttons a new job"><img src="images/remote-buttons.png" alt="Remote buttons: give the coloured buttons a new job" loading="lazy" width="1920" height="1080"></button><figcaption>Give any button a new job</figcaption></figure>
         </div>
       </details>
       <p class="mock">These are mockups drawn to match the app's layout, with made-up channels, programmes and titles. They are not captures from a TV.</p>
@@ -449,6 +466,20 @@
     </div>
   </div>
 </main>
+<dialog class="screenshot-dialog" id="screenshot-dialog" aria-label="Enlarged Forge TV screenshot">
+  <div class="screenshot-viewer">
+    <div class="screenshot-toolbar">
+      <p class="screenshot-caption" id="screenshot-caption"></p>
+      <button type="button" class="screenshot-close" id="screenshot-close" aria-label="Close enlarged screenshot">✕ Close</button>
+    </div>
+    <div class="screenshot-scroll" id="screenshot-scroll">
+      <img class="screenshot-full" id="screenshot-full" src="" alt="">
+    </div>
+    <div class="screenshot-actions">
+      <button type="button" class="screenshot-zoom" id="screenshot-zoom">Zoom to original size</button>
+    </div>
+  </div>
+</dialog>
 <footer></footer>
 <script src="/site-config.js"></script>
 <script>
@@ -491,5 +522,44 @@
 })();
 </script>
 
+
+<script>
+(function () {
+  var dialog = document.getElementById("screenshot-dialog");
+  var full = document.getElementById("screenshot-full");
+  var caption = document.getElementById("screenshot-caption");
+  var zoom = document.getElementById("screenshot-zoom");
+  var scroll = document.getElementById("screenshot-scroll");
+  var openedBy = null;
+
+  document.querySelectorAll(".screenshot-trigger").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var thumbnail = button.querySelector("img");
+      openedBy = button;
+      full.src = thumbnail.currentSrc || thumbnail.src;
+      full.alt = thumbnail.alt;
+      caption.textContent = (button.closest("figure") && button.closest("figure").querySelector("figcaption") || {}).textContent || thumbnail.alt;
+      dialog.classList.remove("is-zoomed");
+      zoom.textContent = "Zoom to original size";
+      dialog.showModal();
+    });
+  });
+
+  document.getElementById("screenshot-close").addEventListener("click", function () { dialog.close(); });
+  zoom.addEventListener("click", function () {
+    var enlarged = dialog.classList.toggle("is-zoomed");
+    zoom.textContent = enlarged ? "Fit to window" : "Zoom to original size";
+    scroll.scrollTop = 0;
+    scroll.scrollLeft = 0;
+  });
+  dialog.addEventListener("click", function (event) {
+    if (event.target === dialog) dialog.close();
+  });
+  dialog.addEventListener("close", function () {
+    full.removeAttribute("src");
+    if (openedBy) openedBy.focus();
+  });
+})();
+</script>
 </body>
 </html>
