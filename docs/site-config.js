@@ -4,6 +4,6 @@
 window.FORGE_SITE_CONFIG = {
   donations: {
     enabled: true,
-    url: "" // Example: "https://ko-fi.com/forgetv"
+    url: "https://ko-fi.com/forgetv"
   }
 };
