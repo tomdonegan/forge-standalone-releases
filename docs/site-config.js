@@ -4,6 +4,6 @@
 window.FORGE_SITE_CONFIG = {
   donations: {
     enabled: false,
-    url: "" // Example: "https://buymeacoffee.com/YOUR_USERNAME"
+    url: "" // Example: "https://ko-fi.com/YOUR_USERNAME"
   }
 };
