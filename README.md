@@ -110,6 +110,10 @@
 - Resume or start over from Continue watching.
 
 ### 🪟 Picture in picture and multiscreen
+
+| ![Picture in picture: a second channel in the corner](docs/images/picture-in-picture.png) | ![Multiscreen: up to four channels at once](docs/images/multiscreen.png) |
+|---|---|
+
 - **Picture in picture:** the Picture in picture icon in the player options bar picks a playlist and channel for a small second picture over live TV, movies and episodes. One picture has the sound, and you can switch it.
 - **Multiscreen:** show 2, 3 or 4 live channels at once, side by side, one large and the rest small, or 2 by 2. The D-pad moves between screens and OK opens a screen's menu to pick a channel from any playlist that allows it, give it the sound, watch it full screen or close it.
 - Each playlist can be left out of it, and can record how many streams its account allows. Forge warns you when pictures share an account that allows fewer.
