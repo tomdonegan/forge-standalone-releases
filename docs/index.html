@@ -88,6 +88,11 @@
   .bar nav { margin-left: auto; display: flex; gap: 22px; }
   .bar nav a { color: var(--muted); text-decoration: none; font-weight: 500; }
   .bar nav a:hover { color: var(--text); }
+  .bar-coffee { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line); color: var(--text); font-weight: 700; font-size: 15px; text-decoration: none; white-space: nowrap; transition: transform .15s ease, background .15s ease; }
+  .bar-coffee:hover, .bar-coffee:focus-visible { transform: translateY(-1px); background: var(--lift); }
+  .bar-coffee[hidden] { display: none; }
+  .credits { max-width: 52em; margin: 0 auto; }
+  .credits p { margin: 0 0 8px; }
 
   /* Hero */
   .hero {
@@ -222,6 +227,8 @@
   }
   @media (max-width: 640px) {
     body { font-size: 16px; }
+    .bar-coffee { margin-left: auto; padding: 6px 12px; font-size: 14px; }
+    .bar nav { order: 3; }
     .wrap { padding: 0 16px; }
     .bar .wrap { height:auto; padding-top:12px; padding-bottom:12px; flex-wrap:wrap; row-gap:8px; }
     .bar nav { display:flex; width:100%; margin-left:0; gap:16px; overflow-x:auto; white-space:nowrap; padding-bottom:3px; font-size:14px; }
@@ -257,6 +264,7 @@
       <a href="/setup.html">Setup</a>
       <a href="/feedback.html">Feedback</a>
     </nav>
+    <a class="bar-coffee" id="forge-bar-coffee" href="#" target="_blank" rel="noopener noreferrer" hidden>☕ Buy me a coffee</a>
   </div>
 </header>
 
@@ -356,6 +364,7 @@
           <ul>
             <li>Tidy names takes tags like "UK |" or "FHD" off names.</li>
             <li>Your own groups, with channels from every playlist.</li>
+            <li>Menu opacity from See-through to Solid for popups and the player menu.</li>
             <li>Right moves an item to the top of a list, Left to the bottom.</li>
             <li>Choose a channel's guide channel when listings are wrong.</li>
           </ul>
@@ -378,6 +387,7 @@
             <li>OK to tune in, or jump to it in the guide.</li>
             <li>Follow leagues and teams in My favourites.</li>
             <li>Reminders for upcoming games.</li>
+            <li>Pick preferred channels, and OK on a live game tunes the best one.</li>
           </ul>
         </div>
         <div class="feature">
@@ -396,12 +406,24 @@
           <h3>Movies and TV shows</h3>
           <ul>
             <li>Rows of posters: new, top rated and every category.</li>
-            <li>Title pages with cast, director, badges and a trailer.</li>
+            <li>Title pages with cast, director, badges and a trailer that plays inside the app.</li>
+            <li>TMDB's rating, and the age rating for the country you choose.</li>
+            <li>Mark movies and episodes watched or unwatched, and show unwatched only.</li>
             <li>Shows carry on from the next episode in one press.</li>
             <li>Episodes as widescreen stills, with progress.</li>
             <li>Synopses filled in from TVmaze or Wikipedia.</li>
             <li>Skip intro, and Up next over the credits.</li>
             <li>Recommended series and movies on Home.</li>
+          </ul>
+        </div>
+        <div class="feature">
+          <div class="ico" aria-hidden="true">🪟</div>
+          <h3>Picture in picture and multiscreen</h3>
+          <ul>
+            <li>A small second channel over live TV, movies and episodes.</li>
+            <li>Watch two, three or four live channels at once, each from any playlist.</li>
+            <li>One picture has the sound, and you choose which.</li>
+            <li>Warns when screens share an account that allows fewer streams.</li>
           </ul>
         </div>
         <div class="feature">
@@ -547,7 +569,12 @@
     </div>
   </div>
 </dialog>
-<footer></footer>
+<footer>
+  <div class="wrap credits">
+    <p>Movie and show details, artwork and ratings from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+    <p>Synopses also from TVmaze and Wikipedia. Skip intro timings from TheIntroDB.</p>
+  </div>
+</footer>
 <script src="/site-config.js"></script>
 <script>
 (function () {
@@ -557,6 +584,9 @@
   if (settings && settings.enabled === true && typeof settings.url === "string" && /^https:\/\/(www\.)?ko-fi\.com\/[a-zA-Z0-9._-]+\/?$/.test(settings.url)) {
     donationLink.href = settings.url;
     support.hidden = false;
+    var barCoffee = document.getElementById("forge-bar-coffee");
+    barCoffee.href = settings.url;
+    barCoffee.hidden = false;
   }
 })();
 (function () {

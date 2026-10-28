@@ -66,6 +66,7 @@
 - **Your own groups:** gather channels from any category, and from any of your playlists, into a group of your own, such as the ones the family watches. A group shows in the guide after Recently watched whichever playlist is on, and each channel plays from its own playlist with that playlist's listings. Each profile has its own groups, and you can reorder, rename or delete them.
 - **Second guide:** add another XMLTV guide to a playlist to fill in the channels its own guide has no listings for.
 - **Choose guide channel:** when a channel shows the wrong listings, pick its guide channel by hand from a list of close matches, or go back to matching automatically.
+- **Menu opacity:** five steps from See-through to Solid for popups, dialogs and the player menu (Settings › Playback › Picture).
 - **Remote buttons:** give the red, green, yellow and blue buttons, or any other button you add, a new job while watching live TV, such as Last channel, Favourites or the sleep timer.
 
 ### ⏪ Catch-up and reminders
@@ -82,6 +83,7 @@
 - **Every game, and where to watch it:** pick a sport, then a league, to see its games for the next week, day by day, with kick-off times or live scores and how many of your channels are showing each one.
 - Press OK on a game to list those channels. One that's on now starts straight away; one still to come opens the guide at that programme.
 - **Favourites:** hold OK on a league or a game to follow the league or either team. **My favourites** then lists all their games together. Each profile keeps its own.
+- **Preferred channels:** rank the channels you like best, and OK on a game that is live tunes the highest-ranked one showing it. Games still to come keep their reminder menu, and Choose a channel lists every channel.
 - **Reminders for games:** hold OK on an upcoming game and choose Remind me on the channel you want, and the TV prompts you when it starts.
 - Covers football, basketball, American football, baseball, ice hockey, rugby, tennis, golf, motor racing, cricket and more. Darts, snooker, boxing and other sports without live scores list the guide's programmes for that sport instead.
 
@@ -102,7 +104,15 @@
 - When the provider has no synopsis, Forge fills one in from **TVmaze** or **Wikipedia**.
 - **Skip intro** on episodes whose intro has been timed, and **Up next** counts down to the next episode over the credits.
 - The banner shows when a title ends and what's next, with buttons to skip back 10 s, pause, skip ahead 30 s or go to the next episode.
+- **Trailers play inside the app**, with OK to pause and Back to return to the title page.
+- **TMDB's rating**, labelled, and the **age rating for the country you choose** in Settings.
+- **Mark watched or unwatched** from a title page, the hold menu or Continue watching, and switch on **Unwatched only** to hide finished movies and episodes.
 - Resume or start over from Continue watching.
+
+### 🪟 Picture in picture and multiscreen
+- **Picture in picture:** the Picture in picture icon in the player options bar picks a playlist and channel for a small second picture over live TV, movies and episodes. One picture has the sound, and you can switch it.
+- **Multiscreen:** show 2, 3 or 4 live channels at once, side by side, one large and the rest small, or 2 by 2. The D-pad moves between screens and OK opens a screen's menu to pick a channel from any playlist that allows it, give it the sound, watch it full screen or close it.
+- Each playlist can be left out of it, and can record how many streams its account allows. Forge warns you when pictures share an account that allows fewer.
 
 ### 🔊 Audio and subtitles
 - Pick subtitles and audio from a clear list: each track is named by language, layout and format (for example *English · 5.1 · Dolby Digital*), with subtitles for the deaf and hard of hearing (SDH) and audio description marked. The remote's subtitle and audio keys open the lists directly.
@@ -173,3 +183,7 @@ Forge TV is a player only. **It does not include, sell or provide any channels, 
 ---
 
 <sub>This repository hosts the release builds of Forge TV. The app reads this repository's releases to find its updates, so release files keep their names.</sub>
+
+## Credits
+
+Movie and show details, artwork and ratings come from TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB. Synopses are also filled in from TVmaze and Wikipedia, and Skip intro timings come from TheIntroDB.
