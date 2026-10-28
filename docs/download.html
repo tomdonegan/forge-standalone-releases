@@ -38,11 +38,22 @@
 <li><strong>Allow installation from that source</strong><p>Android may prompt you to allow your chosen file manager or installer to install apps from outside its app store. Only enable this for sources you trust.</p></li>
 <li><strong>Open Forge TV and add your playlist</strong><p>Use an M3U URL, M3U file or Xtream Codes credentials from your own legitimate provider. Forge TV does not supply content.</p></li>
 </ol>
+<h2 id="downloader">Install on Fire TV or Android TV with Downloader</h2>
+<p class="copy">The free Downloader app lets you fetch the APK straight onto the TV with the remote, with no computer or USB stick. It works on Fire TV, Fire TV Stick, Android TV and Google TV.</p>
+<ol class="step-list">
+<li><strong>Get Downloader</strong><p>Search for "Downloader" in your TV's app store and install it. Open it and accept the storage permission prompt.</p></li>
+<li><strong>Allow installs from Downloader</strong><p>On Fire TV: Settings &rarr; My Fire TV &rarr; Developer options &rarr; Install unknown apps &rarr; switch Downloader on. On Android TV or Google TV, Android asks the first time you open the APK: choose Settings, then allow Downloader.</p></li>
+<li id="downloader-code-step" hidden><strong>Type the Downloader code</strong><p>On the Downloader home screen, select the URL box and enter <strong class="code" id="downloader-code"></strong>, then choose Go.</p></li>
+<li><strong>Or type the web address</strong><p>In the URL box enter <strong class="code">forgetv.app/downloads/forge-tv-latest.apk</strong> and choose Go. This link always points at the newest release.</p></li>
+<li><strong>Install</strong><p>When the download finishes, choose Install, then Open. Downloader will offer to delete the APK afterwards, which saves space.</p></li>
+</ol>
+<p class="copy">After the first install, Forge TV updates itself from inside the app, so you only do this once.</p>
 <div class="notice"><strong>Device compatibility:</strong> Forge TV is built for Android TV and Google TV and supports Android 6.0 or later. It also has interfaces for Android phones, tablets and supported Android-based VR headsets. Your device may differ in how it installs APK files.</div>
 <h2>Updates and release information</h2>
 <p class="copy">Forge TV checks for new releases after launch, with options to update now, later or skip a version. You can adjust this in Settings → About. For release files and version history, visit the <a href="https://github.com/tomdonegan/forge-standalone-releases/releases">GitHub releases page</a>.</p>
 <h2>After installation</h2>
 <p class="copy">Start with the <a href="/setup.html">playlist setup guide</a>, then explore the <a href="/how-to.html">remote-control guide</a> to get comfortable with channels, the programme guide and playback shortcuts.</p>
+<script src="/site-config.js"></script>
 <script>
 fetch('/version.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('No release metadata');return r.json()}).then(v=>{
 if(v.version&&v.apkUrl&&typeof v.apkUrl==='string'&&v.apkUrl.startsWith('/downloads/')){
@@ -50,6 +61,8 @@ if(v.version&&v.apkUrl&&typeof v.apkUrl==='string'&&v.apkUrl.startsWith('/downlo
  document.getElementById('release-version').textContent='Current release: v'+v.version+' · Android APK · Currently free to download and use.';
 }
 }).catch(()=>{});
+var dc=window.FORGE_SITE_CONFIG&&window.FORGE_SITE_CONFIG.downloaderCode;
+if(dc){document.getElementById('downloader-code').textContent=dc;document.getElementById('downloader-code-step').hidden=false;}
 </script>
 <div class="notice"><strong>Forge TV is a player only.</strong> No channels or subscriptions are supplied. Use your own lawful content sources.</div>
 </main>
