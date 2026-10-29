@@ -1,0 +1,49 @@
+
+name: Deploy Forge TV Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".github/workflows/deploy-website.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: forgetv-website-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/forgetv_deploy
+          chmod 600 ~/.ssh/forgetv_deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy to VPS
+        run: |
+          rsync -avz \
+            --exclude='downloads/' \
+            -e "ssh -i $HOME/.ssh/forgetv_deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes" \
+            docs/ \
+            forgetv-deploy@157.180.86.63:/var/www/forgetv/
+
+      - name: Verify website
+        run: |
+          curl --fail --silent --show-error \
+            https://forgetv.app/ > /dev/null
