@@ -168,11 +168,7 @@
 3. Allow your device to install apps from that source when Android asks ("Install unknown apps").
 4. Open Forge TV and add your playlist: an M3U/M3U8 link, an M3U file, or an Xtream Codes login. You can type it on the TV or send it from your phone.
 
-#### Install with Downloader (Fire TV, Android TV, Google TV)
-
-1. Install the free **Downloader** app from your TV's app store.
-2. Allow Downloader to install apps: on Fire TV, **Settings › My Fire TV › Developer options › Install unknown apps**; on Android TV, accept the prompt that appears when the APK opens.
-3. In Downloader's URL box, enter `forgetv.app/downloads/forge-tv-latest.apk` and choose **Go**, then **Install**.
+**Fire TV / Android TV:** open the free **Downloader** app, enter code **7186344** and choose **Go**, then **Install**.
 
 ### Updates
 
