@@ -1,0 +1,11 @@
+/* Shared by every page: the same top navigation everywhere. Markup comes from scripts/sync-nav.py. */
+header nav{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;font-size:14px;margin-left:auto}
+header nav a{color:#A9B1C2;text-decoration:none;font-weight:500}
+header nav a:hover{color:#F4F6FA}
+header nav a[aria-current="page"]{color:#E8C26E}
+.bar-coffee{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:999px;background:#151C30;border:1px solid #1E2840;color:#F4F6FA;font-weight:700;font-size:15px;text-decoration:none;white-space:nowrap;transition:transform .15s ease,background .15s ease}
+.bar-coffee:hover,.bar-coffee:focus-visible{transform:translateY(-1px);background:#1B2540}
+.bar-coffee[hidden]{display:none}
+@media(max-width:960px){header .wrap{flex-wrap:wrap;row-gap:10px}header.bar .wrap{height:auto;padding-top:12px;padding-bottom:12px}header nav{order:3;width:100%;margin-left:0}.bar-coffee{margin-left:auto;padding:6px 12px;font-size:14px}}
+/* Give the longer menu room on pages whose content column is narrow */
+header:not(.bar) .wrap{width:min(100% - 36px,1180px);max-width:1180px}

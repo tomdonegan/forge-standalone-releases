@@ -251,21 +251,14 @@
   }
 .dl-code{margin:14px 0 0;font-size:17px;color:var(--muted,#aab)}.dl-code b{color:var(--text,#fff)}.dl-code a{font-family:ui-monospace,monospace;font-size:22px;font-weight:800;letter-spacing:.04em;color:var(--gold,#E8C46A)}
 </style>
+<link rel="stylesheet" href="/site-nav.css">
 </head>
 <body>
 
 <header class="bar">
   <div class="wrap">
     <a class="brand" href="#top"><img src="images/icon.svg" alt="">FORGE <span>TV</span></a>
-    <nav>
-      <a href="#screens">Screens</a>
-      <a href="#features">Features</a>
-      <a href="#install">Install</a>
-      <a href="/how-to.html">How-to</a>
-      <a href="/setup.html">Setup</a>
-      <a href="/feedback.html">Feedback</a>
-    </nav>
-    <a class="bar-coffee" id="forge-bar-coffee" href="#" target="_blank" rel="noopener noreferrer" hidden>☕ Buy me a coffee</a>
+    <nav aria-label="Main navigation"><a href="/" aria-current="page">Home</a><a href="/#screens">Screens</a><a href="/features.html">Features</a><a href="/download.html">Download</a><a href="/setup.html">Setup</a><a href="/sports.html">Sports</a><a href="/how-to.html">How-to</a><a href="/faq.html">FAQ</a><a href="/feedback.html">Feedback</a></nav><a class="bar-coffee" id="forge-bar-coffee" href="#" target="_blank" rel="noopener noreferrer" hidden>☕ Buy me a coffee</a>
   </div>
 </header>
 
@@ -624,9 +617,6 @@
   if (settings && settings.enabled === true && typeof settings.url === "string" && /^https:\/\/(www\.)?ko-fi\.com\/[a-zA-Z0-9._-]+\/?$/.test(settings.url)) {
     donationLink.href = settings.url;
     support.hidden = false;
-    var barCoffee = document.getElementById("forge-bar-coffee");
-    barCoffee.href = settings.url;
-    barCoffee.hidden = false;
   }
 })();
 (function () {
@@ -696,5 +686,6 @@
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2f51f1ffd19641739e5ffd2abb365eeb"}'></script><!-- End Cloudflare Web Analytics -->
+<script src="/site-nav.js" defer></script>
 </body>
 </html>

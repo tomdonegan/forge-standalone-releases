@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "docs/**"
+      - "scripts/sync-nav.py"
       - ".github/workflows/deploy-website.yml"
   workflow_dispatch:
 
@@ -23,6 +24,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Check navigation is in sync
+        run: python3 scripts/sync-nav.py --check
 
       - name: Configure SSH
         env:
