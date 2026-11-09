@@ -1,0 +1,1 @@
+Forge TV Standalone 1.2.10-beta.4: download forge-tv-standalone-1.2.10-beta.4.apk from this release's assets.

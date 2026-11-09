@@ -1,0 +1,208 @@
+
+name: Publish APK to Forge TV Website
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "GitHub release tag, e.g. v0.8.6"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: forgetv-apk-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      VPS: forgetv-deploy@157.180.86.63
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Download release APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release
+
+          gh release download "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'forge-tv-standalone-*.apk' \
+            --dir release
+
+          shopt -s nullglob
+          files=(release/*.apk)
+
+          if [ "${#files[@]}" -ne 1 ]; then
+            echo "Expected exactly one APK"
+            exit 1
+          fi
+
+          mv "${files[0]}" release/forge-tv.apk
+
+      - name: Generate version metadata
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          tag = os.environ["RELEASE_TAG"]
+          match = re.fullmatch(
+              r"v?(\d+\.\d+\.\d+)", tag
+          )
+          if not match:
+              raise SystemExit("Invalid release tag: " + tag)
+
+          version = match.group(1)
+          apk = Path("release/forge-tv.apk")
+          filename = f"forge-tv-{version}.apk"
+
+          checksum = hashlib.sha256(
+              apk.read_bytes()
+          ).hexdigest()
+
+          metadata = {
+              "version": version,
+              "apkUrl": (
+                  "/downloads/versions/" + filename
+              ),
+              "sizeBytes": apk.stat().st_size,
+              "sha256": checksum
+          }
+
+          Path("release/version.json").write_text(
+              json.dumps(metadata, indent=2) + "\n"
+          )
+
+          with open(os.environ["GITHUB_ENV"], "a") as env:
+              env.write(f"RELEASE_VERSION={version}\n")
+          PY
+
+      - name: Upload release to VPS
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          SSH="ssh -i $HOME/.ssh/deploy -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+
+          $SSH "$VPS" \
+            "mkdir -p /var/www/forgetv/downloads/versions"
+
+          rsync -avz -e "$SSH" \
+            release/forge-tv.apk \
+            "$VPS:/var/www/forgetv/downloads/.incoming-$RUN_ID.apk"
+
+          rsync -avz -e "$SSH" \
+            release/version.json \
+            "$VPS:/var/www/forgetv/.incoming-$RUN_ID.json"
+
+      - name: Publish version safely
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          ssh -i "$HOME/.ssh/deploy" \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=yes \
+            "$VPS" \
+            python3 - "$RELEASE_VERSION" "$RUN_ID" <<'PY'
+          import hashlib
+          import json
+          import os
+          import shutil
+          import sys
+          from pathlib import Path
+
+          version, run_id = sys.argv[1:]
+          root = Path("/var/www/forgetv")
+          downloads = root / "downloads"
+          versions = downloads / "versions"
+          incoming = downloads / f".incoming-{run_id}.apk"
+          incoming_meta = root / f".incoming-{run_id}.json"
+          target = versions / f"forge-tv-{version}.apk"
+          metadata_file = root / "version.json"
+          latest = downloads / "forge-tv-latest.apk"
+
+          metadata = json.loads(incoming_meta.read_text())
+
+          def digest(path):
+              h = hashlib.sha256()
+              with path.open("rb") as f:
+                  for chunk in iter(lambda: f.read(1048576), b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          if metadata["version"] != version:
+              raise SystemExit("Version metadata mismatch")
+
+          if digest(incoming) != metadata["sha256"]:
+              raise SystemExit("APK checksum mismatch")
+
+          current = {}
+          if metadata_file.exists():
+              current = json.loads(metadata_file.read_text())
+
+          def version_tuple(value):
+              return tuple(map(int, value.split(".")))
+
+          old_version = current.get("version")
+
+          # Never replace an existing version with different bytes.
+          if target.exists():
+              if digest(target) != digest(incoming):
+                  raise SystemExit(
+                      "Version already exists with a different APK"
+                  )
+              incoming.unlink()
+          else:
+              os.replace(incoming, target)
+
+          # Archive older versions without changing the latest.
+          if old_version and version_tuple(version) < version_tuple(old_version):
+              incoming_meta.unlink()
+              print("Older version archived; latest unchanged")
+              sys.exit(0)
+
+          # Maintain the legacy latest APK link.
+          temp_latest = downloads / f".latest-{run_id}.apk"
+          shutil.copyfile(target, temp_latest)
+          os.replace(temp_latest, latest)
+
+          # Publish metadata last.
+          os.replace(incoming_meta, metadata_file)
+          print("Published Forge TV", version)
+          PY
+
+      - name: Verify website
+        run: |
+          curl --fail --silent --show-error \
+            --retry 5 --retry-delay 2 \
+            https://forgetv.app/version.json
