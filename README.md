@@ -1,0 +1,1 @@
+Forge TV Standalone 1.2.11: download forge-tv-standalone-1.2.11.apk from this release's assets.
